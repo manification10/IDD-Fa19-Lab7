@@ -103,15 +103,7 @@ io.on('connect', function(socket) {
   // if you get the 'ledON' msg, send an 'H' to the Arduino
   socket.on('ledON', function() {
     console.log('ledON');
-    Jimp.read(__dirname+'/public/'+imageName+'.jpg', (err, pic) => {
-      if (err) throw err;
-      pic.resize(256, 256) // resize
-        .quality(60) // set JPEG quality
-        .greyscale() // set greyscale
-        .write(__dirname+'/public/'+imageName+'-small-bw.jpg'); // save
-        io.emit('newPicture',(__dirname+'/public/'+imageName+'.-small-bw.jpg'));
-    });
-
+    io.emit('newPicture',(__dirname+'/public/'+imageName+'.-small-bw.jpg'));
     serial.write('H');
   });
 
@@ -132,6 +124,13 @@ io.on('connect', function(socket) {
 
     //Third, the picture is  taken and saved to the `public/`` folder
     NodeWebcam.capture('public/'+imageName, opts, function( err, data ) {
+      Jimp.read(__dirname+'/public/'+imageName+'.jpg', (err, pic) => {
+        if (err) throw err;
+        pic.resize(256, 256) // resize
+          .quality(60) // set JPEG quality
+          .greyscale() // set greyscale
+          .write(__dirname+'/public/'+imageName+'-small-bw.jpg'); // save
+      });
     //io.emit('newPicture',(imageName+'.jpg')); ///Lastly, the new name is send to the client web browser.
     /// The browser will take this new name and load the picture from the public folder.
   });
