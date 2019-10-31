@@ -20,6 +20,7 @@ line input.
 */
 
 var express = require('express'); // web server application
+var Jimp = require('jimp');
 var app = express(); // webapp
 var http = require('http').Server(app); // connects http library to server
 var io = require('socket.io')(http); // connect websocket library to server
@@ -123,10 +124,9 @@ io.on('connect', function(socket) {
     NodeWebcam.capture('public/'+imageName, opts, function( err, data ) {
     io.emit('newPicture',(imageName+'.jpg')); ///Lastly, the new name is send to the client web browser.
     /// The browser will take this new name and load the picture from the public folder.
-    var Jimp = require('jimp');
 
     // open a file called "lenna.png"
-    Jimp.read(imageName+'.jpg', (err, pic) => {
+    Jimp.read('public/'+imageName+'.jpg', (err, pic) => {
       if (err) throw err;
       pic
         .resize(256, 256) // resize
