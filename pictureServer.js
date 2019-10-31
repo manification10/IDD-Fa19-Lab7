@@ -109,8 +109,14 @@ io.on('connect', function(socket) {
 
   // if you get the 'ledOFF' msg, send an 'L' to the Arduino
   socket.on('ledOFF', function() {
+    Jimp.read(__dirname+'/public/'+imageName+'.jpg', (err, pic) => {
+      if (err) throw err;
+      pic.resize(256, 256) // resize
+        .quality(60) // set JPEG quality
+        .greyscale() // set greyscale
+        .write(__dirname+'/public/'+imageName+'-small-bw.jpg'); // save
+    });
     console.log('ledOFF');
-    imageName = new Date().toString().replace(/[&\/\\#,+()$~%.'":*?<>{}\s-]/g, '');
     serial.write('L');
   });
   //-- Addition: This function is called when the client clicks on the `Take a picture` button.
@@ -124,14 +130,7 @@ io.on('connect', function(socket) {
 
     //Third, the picture is  taken and saved to the `public/`` folder
     NodeWebcam.capture('public/'+imageName, opts, function( err, data ) {
-      Jimp.read(__dirname+'/public/'+imageName+'.jpg', (err, pic) => {
-        if (err) throw err;
-        pic.resize(256, 256) // resize
-          .quality(60) // set JPEG quality
-          .greyscale() // set greyscale
-          .write(__dirname+'/public/'+imageName+'-small-bw.jpg'); // save
-      });
-    //io.emit('newPicture',(imageName+'.jpg')); ///Lastly, the new name is send to the client web browser.
+    io.emit('newPicture',(imageName+'.jpg')); ///Lastly, the new name is send to the client web browser.
     /// The browser will take this new name and load the picture from the public folder.
   });
   });
