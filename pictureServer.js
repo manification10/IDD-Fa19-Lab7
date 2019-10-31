@@ -126,7 +126,8 @@ io.on('connect', function(socket) {
     /// The browser will take this new name and load the picture from the public folder.
 
     // open a file called "lenna.png"
-    Jimp.read('public/'+imageName+'.jpg', (err, pic) => {
+    console.log(__dirname);
+    Jimp.read(imageName+'.jpg', (err, pic) => {
       if (err) throw err;
       pic
         .resize(256, 256) // resize
