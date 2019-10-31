@@ -111,7 +111,7 @@ io.emit('blur2.jpg'));
     serial.write('L');
   });
   //-- Addition: This function is called when the client clicks on the `Take a picture` button.
-  parser.on('data', function(data) {
+  parser.on('takePicture', function(data) {
     /// First, we create a name for the new picture.
     /// The .replace() function removes all special characters from the date.
     /// This way we can use it as the filename.
@@ -124,14 +124,6 @@ io.emit('blur2.jpg'));
     io.emit('newPicture',(imageName+'.jpg')); ///Lastly, the new name is send to the client web browser.
     /// The browser will take this new name and load the picture from the public folder.
   });
-  async function main() {
-  const image = await Jimp.read
-('public/'+imageName+'.jpg');
-  image.blur(2, function(err){
-    if (err) throw err;
-  })
-  .write('blur2.png');
-}
   });
   // if you get the 'disconnect' message, say the user disconnected
   socket.on('disconnect', function() {
