@@ -121,13 +121,13 @@ io.on('connect', function(socket) {
     console.log('making a making a picture at'+ imageName); // Second, the name is logged to the console.
 
     //Third, the picture is  taken and saved to the `public/`` folder
-    NodeWebcam.capture('public/'+imageName, opts, function( err, data ) {
-    //io.emit('newPicture',(imageName+'.jpg')); ///Lastly, the new name is send to the client web browser.
+    NodeWebcam.capture('public/a', opts, function( err, data ) {
+    io.emit('newPicture',('a.jpg')); ///Lastly, the new name is send to the client web browser.
     /// The browser will take this new name and load the picture from the public folder.
 
     // open a file called "lenna.png"
     console.log(__dirname);
-    Jimp.read('public/'+imageName+'.jpg', (err, pic) => {
+    Jimp.read('public/a.jpg', (err, pic) => {
       if (err) throw err;
       pic
         .resize(256, 256) // resize
