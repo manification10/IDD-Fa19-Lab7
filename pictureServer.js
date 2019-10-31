@@ -117,7 +117,7 @@ io.on('connect', function(socket) {
     /// First, we create a name for the new picture.
     /// The .replace() function removes all special characters from the date.
     /// This way we can use it as the filename.
-    imageName = new Date().toString().replace(/[&\/\\#,+()$~%.'":*?<>{}\s-]/g, '');
+    //imageName = new Date().toString().replace(/[&\/\\#,+()$~%.'":*?<>{}\s-]/g, '');
 
     console.log('making a making a picture at'+ imageName); // Second, the name is logged to the console.
 
