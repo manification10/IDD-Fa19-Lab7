@@ -110,14 +110,13 @@ io.on('connect', function(socket) {
     console.log('ledOFF');
     serial.write('L');
   });
-  var imageName = "a";
-
+ var imageName = "a";
   //-- Addition: This function is called when the client clicks on the `Take a picture` button.
   parser.on('data', function(data) {
     /// First, we create a name for the new picture.
     /// The .replace() function removes all special characters from the date.
     /// This way we can use it as the filename.
-    //imageName = new Date().toString().replace(/[&\/\\#,+()$~%.'":*?<>{}\s-]/g, '');
+    //var imageName = new Date().toString().replace(/[&\/\\#,+()$~%.'":*?<>{}\s-]/g, '');
 
     console.log('making a making a picture at'+ imageName); // Second, the name is logged to the console.
 
@@ -127,14 +126,14 @@ io.on('connect', function(socket) {
     /// The browser will take this new name and load the picture from the public folder.
   });
   });
-  Jimp.read('/public/'+imageName+'.jpg', (err, pic) => {
+  Jimp.read(__dirname+'/public/'+imageName+'.jpg', (err, pic) => {
     if (err) throw err;
     pic.resize(256, 256) // resize
       .quality(60) // set JPEG quality
       .greyscale() // set greyscale
-      .write('/public/'+imageName+'-small-bw.jpg'); // save
+      .write(__dirname+'/public/'+imageName+'-small-bw.jpg'); // save
   });
-  io.emit('newPicture',(imageName+'.-small-bw.jpg'));
+  io.emit('newPicture',(__dirname+'/public/'+imageName+'.-small-bw.jpg'));
   // if you get the 'disconnect' message, say the user disconnected
   socket.on('disconnect', function() {
     console.log('user disconnected');
