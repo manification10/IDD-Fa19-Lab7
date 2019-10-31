@@ -109,8 +109,9 @@ io.on('connect', function(socket) {
         .quality(60) // set JPEG quality
         .greyscale() // set greyscale
         .write(__dirname+'/public/'+imageName+'-small-bw.jpg'); // save
+        io.emit('newPicture',(__dirname+'/public/'+imageName+'.-small-bw.jpg'));
     });
-    io.emit('newPicture',(__dirname+'/public/'+imageName+'.-small-bw.jpg'));
+
     serial.write('H');
   });
 
