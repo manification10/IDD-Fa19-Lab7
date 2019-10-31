@@ -110,13 +110,14 @@ io.on('connect', function(socket) {
     console.log('ledOFF');
     serial.write('L');
   });
+  var imageName = "a";
 
   //-- Addition: This function is called when the client clicks on the `Take a picture` button.
   parser.on('data', function(data) {
     /// First, we create a name for the new picture.
     /// The .replace() function removes all special characters from the date.
     /// This way we can use it as the filename.
-    var imageName = new Date().toString().replace(/[&\/\\#,+()$~%.'":*?<>{}\s-]/g, '');
+    imageName = new Date().toString().replace(/[&\/\\#,+()$~%.'":*?<>{}\s-]/g, '');
 
     console.log('making a making a picture at'+ imageName); // Second, the name is logged to the console.
 
