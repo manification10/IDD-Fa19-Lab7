@@ -126,14 +126,14 @@ io.on('connect', function(socket) {
     /// The browser will take this new name and load the picture from the public folder.
   });
   });
-  Jimp.read(__dirname+'/public/'+imageName+'.jpg', (err, pic) => {
+  Jimp.read('/public/'+imageName+'.jpg', (err, pic) => {
     if (err) throw err;
     pic.resize(256, 256) // resize
       .quality(60) // set JPEG quality
       .greyscale() // set greyscale
-      .write(__dirname+'/public/'+imageName+'-small-bw.jpg'); // save
+      .write('/public/'+imageName+'-small-bw.jpg'); // save
   });
-  io.emit('newPicture',(__dirname+'/public/'+imageName+'.-small-bw.jpg'));
+  io.emit('newPicture',(imageName+'.-small-bw.jpg'));
   // if you get the 'disconnect' message, say the user disconnected
   socket.on('disconnect', function() {
     console.log('user disconnected');
