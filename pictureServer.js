@@ -117,6 +117,7 @@ io.on('connect', function(socket) {
   // if you get the 'ledOFF' msg, send an 'L' to the Arduino
   socket.on('ledOFF', function() {
     console.log('ledOFF');
+    imageName = new Date().toString().replace(/[&\/\\#,+()$~%.'":*?<>{}\s-]/g, '');
     serial.write('L');
   });
   //-- Addition: This function is called when the client clicks on the `Take a picture` button.
@@ -130,7 +131,7 @@ io.on('connect', function(socket) {
 
     //Third, the picture is  taken and saved to the `public/`` folder
     NodeWebcam.capture('public/'+imageName, opts, function( err, data ) {
-    io.emit('newPicture',(imageName+'.jpg')); ///Lastly, the new name is send to the client web browser.
+    //io.emit('newPicture',(imageName+'.jpg')); ///Lastly, the new name is send to the client web browser.
     /// The browser will take this new name and load the picture from the public folder.
   });
   });
