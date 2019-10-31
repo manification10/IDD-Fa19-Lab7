@@ -20,7 +20,6 @@ line input.
 */
 
 var express = require('express'); // web server application
-var Jimp = require('jimp');
 var app = express(); // webapp
 var http = require('http').Server(app); // connects http library to server
 var io = require('socket.io')(http); // connect websocket library to server
@@ -98,7 +97,7 @@ parser.on('data', function(data) {
 // as long as someone is connected, listen for messages
 io.on('connect', function(socket) {
   console.log('a user connected');
-io.emit('blur2.jpg'));
+
   // if you get the 'ledON' msg, send an 'H' to the Arduino
   socket.on('ledON', function() {
     console.log('ledON');
@@ -110,12 +109,13 @@ io.emit('blur2.jpg'));
     console.log('ledOFF');
     serial.write('L');
   });
+
   //-- Addition: This function is called when the client clicks on the `Take a picture` button.
-  parser.on('takePicture', function(data) {
+  parser.on('data', function(data) {
     /// First, we create a name for the new picture.
     /// The .replace() function removes all special characters from the date.
     /// This way we can use it as the filename.
-  var imageName = new Date().toString().replace(/[&\/\\#,+()$~%.'":*?<>{}\s-]/g, '');
+    var imageName = new Date().toString().replace(/[&\/\\#,+()$~%.'":*?<>{}\s-]/g, '');
 
     console.log('making a making a picture at'+ imageName); // Second, the name is logged to the console.
 
@@ -123,7 +123,19 @@ io.emit('blur2.jpg'));
     NodeWebcam.capture('public/'+imageName, opts, function( err, data ) {
     io.emit('newPicture',(imageName+'.jpg')); ///Lastly, the new name is send to the client web browser.
     /// The browser will take this new name and load the picture from the public folder.
+    var Jimp = require('jimp');
+
+    // open a file called "lenna.png"
+    Jimp.read(imageName+'.jpg', (err, pic) => {
+      if (err) throw err;
+      pic
+        .resize(256, 256) // resize
+        .quality(60) // set JPEG quality
+        .greyscale() // set greyscale
+        .write(imageName+'-small-bw.jpg'); // save
+    });
   });
+  io.emit('newPicture',(imageName+'.-small-bw.jpg'));
   });
   // if you get the 'disconnect' message, say the user disconnected
   socket.on('disconnect', function() {
