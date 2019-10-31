@@ -97,6 +97,7 @@ parser.on('data', function(data) {
 // this is the websocket event handler and say if someone connects
 // as long as someone is connected, listen for messages
 io.on('connect', function(socket) {
+  var imageName = new Date().toString().replace(/[&\/\\#,+()$~%.'":*?<>{}\s-]/g, '');
   console.log('a user connected');
 
   // if you get the 'ledON' msg, send an 'H' to the Arduino
@@ -118,7 +119,6 @@ io.on('connect', function(socket) {
     console.log('ledOFF');
     serial.write('L');
   });
- var imageName = "a";
   //-- Addition: This function is called when the client clicks on the `Take a picture` button.
   parser.on('data', function(data) {
     /// First, we create a name for the new picture.
