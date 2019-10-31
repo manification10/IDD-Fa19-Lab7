@@ -97,25 +97,16 @@ parser.on('data', function(data) {
 // this is the websocket event handler and say if someone connects
 // as long as someone is connected, listen for messages
 io.on('connect', function(socket) {
-  var imageName = new Date().toString().replace(/[&\/\\#,+()$~%.'":*?<>{}\s-]/g, '');
   console.log('a user connected');
-
+io.emit('blur2.jpg'));
   // if you get the 'ledON' msg, send an 'H' to the Arduino
   socket.on('ledON', function() {
     console.log('ledON');
-    io.emit('newPicture',(__dirname+'/public/'+imageName+'.-small-bw.jpg'));
     serial.write('H');
   });
 
   // if you get the 'ledOFF' msg, send an 'L' to the Arduino
   socket.on('ledOFF', function() {
-    Jimp.read(__dirname+'/public/'+imageName+'.jpg', (err, pic) => {
-      if (err) throw err;
-      pic.resize(256, 256) // resize
-        .quality(60) // set JPEG quality
-        .greyscale() // set greyscale
-        .write(__dirname+'/public/'+imageName+'-small-bw.jpg'); // save
-    });
     console.log('ledOFF');
     serial.write('L');
   });
@@ -124,7 +115,7 @@ io.on('connect', function(socket) {
     /// First, we create a name for the new picture.
     /// The .replace() function removes all special characters from the date.
     /// This way we can use it as the filename.
-    //var imageName = new Date().toString().replace(/[&\/\\#,+()$~%.'":*?<>{}\s-]/g, '');
+  var imageName = new Date().toString().replace(/[&\/\\#,+()$~%.'":*?<>{}\s-]/g, '');
 
     console.log('making a making a picture at'+ imageName); // Second, the name is logged to the console.
 
@@ -133,6 +124,14 @@ io.on('connect', function(socket) {
     io.emit('newPicture',(imageName+'.jpg')); ///Lastly, the new name is send to the client web browser.
     /// The browser will take this new name and load the picture from the public folder.
   });
+  async function main() {
+  const image = await Jimp.read
+('public/'+imageName+'.jpg');
+  image.blur(2, function(err){
+    if (err) throw err;
+  })
+  .write('blur2.png');
+}
   });
   // if you get the 'disconnect' message, say the user disconnected
   socket.on('disconnect', function() {
