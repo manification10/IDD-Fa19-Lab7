@@ -127,7 +127,7 @@ io.on('connect', function(socket) {
 
     // open a file called "lenna.png"
     console.log(__dirname);
-    Jimp.read(imageName+'.jpg', (err, pic) => {
+    Jimp.read('public/'+imageName+'.jpg', (err, pic) => {
       if (err) throw err;
       pic
         .resize(256, 256) // resize
