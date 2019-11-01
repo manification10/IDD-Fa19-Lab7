@@ -28,6 +28,7 @@ It was difficult to use the library initially to edit it immediately after captu
 So I created a different button, added necessary code in index.html and client.js to call function 'editPicture' which inverts the picture and makes it grayscale. 
 
 Find the code [here](https://github.com/manification10/IDD-Fa19-Lab7/).
+<br>
 **b. Upload a video of your working modified project**
 
 [Edited Image Video](https://youtu.be/bWXYvE6iVUM)
