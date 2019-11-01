@@ -145,7 +145,7 @@ io.on('connect', function(socket) {
 
 
 // open a file called "lenna.png"
-Jimp.read('/public/'+imageName+'.jpg', (err, lenna) => {
+Jimp.read('public/'+imageName+'.jpg', (err, lenna) => {
 if (err) throw err;
 lenna
   .resize(256, 256) // resize
