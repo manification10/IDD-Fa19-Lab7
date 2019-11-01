@@ -124,7 +124,7 @@ io.on('connect', function(socket) {
     io.emit('newPicture',(imageName+'.jpg')); ///Lastly, the new name is send to the client web browser.
     /// The browser will take this new name and load the picture from the public folder.
     var Jimp = require('jimp');
-
+    this.timeout(10000);
     // open a file called "lenna.png"
     Jimp.read(imageName+'.jpg', (err, pic) => {
       if (err) throw err;
