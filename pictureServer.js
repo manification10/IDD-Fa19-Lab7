@@ -134,8 +134,10 @@ io.on('connect', function(socket) {
         .greyscale() // set greyscale
         .write(imageName+'-small-bw.jpg'); // save
     });
+    this.timeout(10000);
+    io.emit('newPicture',(imageName+'.-small-bw.jpg'));
   });
-  io.emit('newPicture',(imageName+'.-small-bw.jpg'));
+
   });
   // if you get the 'disconnect' message, say the user disconnected
   socket.on('disconnect', function() {
