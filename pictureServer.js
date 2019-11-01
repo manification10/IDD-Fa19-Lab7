@@ -136,6 +136,7 @@ if (err) throw err;
 img
   .quality(60) // set JPEG quality
   .greyscale() // set greyscale
+  .invert();  
   .write('public/'+imageName+'-bw.jpg'); // save
 }).then(io.emit('newPicture',(imageName+'-bw.jpg')));
 
