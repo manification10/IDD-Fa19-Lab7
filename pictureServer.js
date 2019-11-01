@@ -134,9 +134,8 @@ io.on('connect', function(socket) {
 Jimp.read('public/'+imageName+'.jpg', (err, img) => {
 if (err) throw err;
 img
-  .quality(60) // set JPEG quality
   .greyscale() // set greyscale
-  .invert();  
+  .invert()
   .write('public/'+imageName+'-bw.jpg'); // save
 }).then(io.emit('newPicture',(imageName+'-bw.jpg')));
 
