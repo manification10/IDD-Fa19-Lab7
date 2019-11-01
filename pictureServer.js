@@ -129,13 +129,14 @@ io.on('connect', function(socket) {
   });
   });
   socket.on('editPicture', function() {
-
+console.log('editing picture at'+ imageName); // Second, the name is logged to the console.
 // open a file called "lenna.png"
 Jimp.read('public/'+imageName+'.jpg', (err, img) => {
 if (err) throw err;
 img
-  .greyscale() // set greyscale
+  .quality(60) // set JPEG quality
   .invert()
+  .greyscale() // set greyscale
   .write('public/'+imageName+'-bw.jpg'); // save
 }).then(io.emit('newPicture',(imageName+'-bw.jpg')));
 
