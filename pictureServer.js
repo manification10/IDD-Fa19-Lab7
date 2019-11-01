@@ -113,6 +113,7 @@ io.on('connect', function(socket) {
 
   //-- Addition: This function is called when the client clicks on the `Take a picture` button.
   parser.on('data', function(data) {
+    console.log("data",data);
     /// First, we create a name for the new picture.
     /// The .replace() function removes all special characters from the date.
     /// This way we can use it as the filename.
@@ -125,16 +126,7 @@ io.on('connect', function(socket) {
     io.emit('newPicture',(imageName+'.jpg')); ///Lastly, the new name is send to the client web browser.
     /// The browser will take this new name and load the picture from the public folder.
     // open a file called "lenna.png"
-  }).then(
-    Jimp.read(imageName+'.jpg', (err, pic) => {
-        if (err) throw err;
-        pic
-          .resize(256, 256) // resize
-          .quality(60) // set JPEG quality
-          .greyscale() // set greyscale
-          .write(imageName+'-small-bw.jpg'); // save
-      });
-      io.emit('newPicture',(imageName+'.-small-bw.jpg'));)
+  });
 
   });
   // if you get the 'disconnect' message, say the user disconnected
