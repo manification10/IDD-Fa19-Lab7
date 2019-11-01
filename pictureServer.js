@@ -28,6 +28,7 @@ var SerialPort = require('serialport'); // serial library
 var Readline = SerialPort.parsers.Readline; // read serial data as lines
 //-- Addition:
 var NodeWebcam = require( "node-webcam" );// load the webcam module
+var Jimp = require('jimp');
 
 //---------------------- WEBAPP SERVER SETUP ---------------------------------//
 // use express to create the simple webapp
@@ -123,20 +124,17 @@ io.on('connect', function(socket) {
     NodeWebcam.capture('public/'+imageName, opts, function( err, data ) {
     io.emit('newPicture',(imageName+'.jpg')); ///Lastly, the new name is send to the client web browser.
     /// The browser will take this new name and load the picture from the public folder.
-    var Jimp = require('jimp');
-    this.timeout(10000);
     // open a file called "lenna.png"
+  }).then(
     Jimp.read(imageName+'.jpg', (err, pic) => {
-      if (err) throw err;
-      pic
-        .resize(256, 256) // resize
-        .quality(60) // set JPEG quality
-        .greyscale() // set greyscale
-        .write(imageName+'-small-bw.jpg'); // save
-    });
-    this.timeout(10000);
-    io.emit('newPicture',(imageName+'.-small-bw.jpg'));
-  });
+        if (err) throw err;
+        pic
+          .resize(256, 256) // resize
+          .quality(60) // set JPEG quality
+          .greyscale() // set greyscale
+          .write(imageName+'-small-bw.jpg'); // save
+      });
+      io.emit('newPicture',(imageName+'.-small-bw.jpg'));)
 
   });
   // if you get the 'disconnect' message, say the user disconnected
