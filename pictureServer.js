@@ -29,6 +29,7 @@ var Readline = SerialPort.parsers.Readline; // read serial data as lines
 //-- Addition:
 var NodeWebcam = require( "node-webcam" );// load the webcam module
 var Jimp = require('jimp');
+var imageName = "dummy";
 
 //---------------------- WEBAPP SERVER SETUP ---------------------------------//
 // use express to create the simple webapp
@@ -113,11 +114,10 @@ io.on('connect', function(socket) {
 
   //-- Addition: This function is called when the client clicks on the `Take a picture` button.
   socket.on('takePicture', function() {
-    console.log("data",data);
     /// First, we create a name for the new picture.
     /// The .replace() function removes all special characters from the date.
     /// This way we can use it as the filename.
-    var imageName = new Date().toString().replace(/[&\/\\#,+()$~%.'":*?<>{}\s-]/g, '');
+    imageName = new Date().toString().replace(/[&\/\\#,+()$~%.'":*?<>{}\s-]/g, '');
 
     console.log('making a making a picture at'+ imageName); // Second, the name is logged to the console.
 
@@ -129,6 +129,8 @@ io.on('connect', function(socket) {
   });
 
   });
+  
+
   // if you get the 'disconnect' message, say the user disconnected
   socket.on('disconnect', function() {
     console.log('user disconnected');
