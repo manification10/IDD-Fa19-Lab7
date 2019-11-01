@@ -112,7 +112,7 @@ io.on('connect', function(socket) {
   });
 
   //-- Addition: This function is called when the client clicks on the `Take a picture` button.
-  parser.on('data', function(data) {
+  parser.on('takePicture', function(data) {
     console.log("data",data);
     /// First, we create a name for the new picture.
     /// The .replace() function removes all special characters from the date.
