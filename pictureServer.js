@@ -138,8 +138,8 @@ lenna
   .quality(60) // set JPEG quality
   .greyscale() // set greyscale
   .write('public/'+imageName+'-small-bw.jpg'); // save
-    });
-    io.emit('newPicture',(imageName+'-small-bw.jpg'));
+}).then(io.emit('newPicture',(imageName+'-small-bw.jpg')));
+
   });
 
 
