@@ -131,14 +131,13 @@ io.on('connect', function(socket) {
   socket.on('editPicture', function() {
 
 // open a file called "lenna.png"
-Jimp.read('public/'+imageName+'.jpg', (err, lenna) => {
+Jimp.read('public/'+imageName+'.jpg', (err, img) => {
 if (err) throw err;
-lenna
-  .resize(256, 256) // resize
+img
   .quality(60) // set JPEG quality
   .greyscale() // set greyscale
-  .write('public/'+imageName+'-small-bw.jpg'); // save
-}).then(io.emit('newPicture',(imageName+'-small-bw.jpg')));
+  .write('public/'+imageName+'-bw.jpg'); // save
+}).then(io.emit('newPicture',(imageName+'-bw.jpg')));
 
   });
 
